@@ -3,21 +3,22 @@ import React, { useState, useEffect } from 'react';
 
 function Contacts() {
 
-  const [data, setData] = useState([]); // State to hold the fetched data
-  const [loading, setLoading] = useState(true); // State to manage loading status
-  const [error, setError] = useState(null); // State to manage errors
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
   const organizationId = localStorage.getItem('organizationId');
+  const getAccessToken = localStorage.getItem('getAccessToken');
 
 
   useEffect(() => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/contacts?refreshToken=${refreshToken}&accessToken=${accessToken}&organizationId=${organizationId}`, {
-          method: 'GET', // or 'POST', 'PUT', etc.
+        const response = await fetch(`http://127.0.0.1:8000/api/contacts?refreshToken=${refreshToken}&accessToken=${accessToken}&organizationId=${organizationId}&getAccessToken=${getAccessToken}`, {
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json'
           },
@@ -28,6 +29,7 @@ function Contacts() {
         }
         const result = await response.json();
 
+        localStorage.setItem('getAccessToken', 0);
         setData(result);
       } catch (error) {
         setError(error.messagge);
@@ -73,13 +75,8 @@ function Contacts() {
         </tbody>
 
       </table>
-
-
-
     </div>
   );
 };
-
-
 
 export default Contacts;

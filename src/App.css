@@ -78,32 +78,32 @@
 }
 
 .Styled-table {
-  border-collapse: collapse; /* Remove space between cells */
-  margin: 20px 0; /* Margin around the table */
-  width: 100%; /* Full width */
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border-collapse: collapse;
+  margin: 20px 0; 
+  width: 100%; 
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); 
 }
 
 .Styled-table th, .styled-table td {
-  padding: 12px 15px; /* Padding inside cells */
-  text-align: left; /* Left align text */
+  padding: 12px 15px; 
+  text-align: left; 
 }
 
 .Styled-table thead tr {
-  background-color: #007BFF; /* Header background color */
-  color: #ffffff; /* Header text color */
+  background-color: #007BFF; 
+  color: #ffffff; 
 }
 
 .Styled-table tbody tr {
-  background-color: #ffffff; /* Default row background color */
+  background-color: #ffffff; 
 }
 
 .Styled-table tbody tr:nth-child(even) {
-  background-color: #f2f2f2; /* Zebra stripe for even rows */
+  background-color: #f2f2f2; 
 }
 
 .Styled-table tbody tr:hover {
-  background-color: #e9ecef; /* Highlight on hover */
+  background-color: #e9ecef;
 }
 
 @keyframes App-logo-spin {

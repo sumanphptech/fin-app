@@ -3,13 +3,14 @@ import React, { useState, useEffect } from 'react';
 
 const Accounts = () => {
 
-  const [data, setData] = useState([]); // State to hold the fetched data
-  const [loading, setLoading] = useState(true); // State to manage loading status
-  const [error, setError] = useState(null); // State to manage errors
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
   const organizationId = localStorage.getItem('organizationId');
+  const getAccessToken = localStorage.getItem('getAccessToken');
 
 
 
@@ -17,8 +18,8 @@ const Accounts = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/chartAccounts?refreshToken=${refreshToken}&accessToken=${accessToken}&organizationId=${organizationId}`, {
-          method: 'GET', // or 'POST', 'PUT', etc.
+        const response = await fetch(`http://127.0.0.1:8000/api/chartAccounts?refreshToken=${refreshToken}&accessToken=${accessToken}&organizationId=${organizationId}&getAccessToken=${getAccessToken}`, {
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json'
           },
@@ -29,6 +30,7 @@ const Accounts = () => {
         }
         const result = await response.json();
 
+        localStorage.setItem('getAccessToken', 0);
         setData(result);
       } catch (error) {
         setError(error.messagge);

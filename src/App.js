@@ -11,7 +11,7 @@ function App() {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [organizationId, setOrganizationId] = useState(null);
-  const [getAccessToken, setGetAccessToken] = useState(0);
+  const [getAccessToken, setGetAccessToken] = useState(1);
 
   useEffect(() => {
 
@@ -19,7 +19,6 @@ function App() {
     const accessToken = queryParams.get('access_token');
     const refreshToken = queryParams.get('refresh_token');
     const organizationId = queryParams.get('organization_id');
-    const getAccessToken = 0;
 
     if (refreshToken && organizationId) {
 
@@ -29,11 +28,11 @@ function App() {
       setGetAccessToken(0);
 
       // Store tokens in local storage 
-       localStorage.setItem('accessToken', accessToken);
-       localStorage.setItem('refreshToken', refreshToken);     
-       localStorage.setItem('organizationId', organizationId); 
-       localStorage.setItem('getAccessToken', 0);      
-      
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('organizationId', organizationId);
+      localStorage.setItem('getAccessToken', 0);
+
     }
   }, []);
 
@@ -42,29 +41,40 @@ function App() {
     window.location.href = 'http://127.0.0.1:8000/api/auth/redirect';
   };
 
-  const handleLogout = () => {   
-    
+  const handleLogout = () => {
+
     setAccessToken(null);
     setRefreshToken(null);
     setOrganizationId(null);
+    setGetAccessToken(1);
 
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
-    localStorage.removeItem('organizationId');    
+    localStorage.removeItem('organizationId');
+
+    localStorage.setItem('getAccessToken', 1);
   };
 
   // access token
   const refreshAccessToken = () => {
 
+    console.log('Refreshing access token...');
     localStorage.setItem('getAccessToken', 1);
-    }
+  }
+
+
+  useEffect(() => {
+    const interval = setInterval(refreshAccessToken, 1 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="App">
-    
+
       <Router>
-        
-        <nav className="Nav-div"> 
+
+        <nav className="Nav-div">
           <ul>
             {refreshToken ? (
               <>
@@ -81,25 +91,25 @@ function App() {
                   <Link to="/receipts">Receipts</Link>
                 </li>
               </>
-           ) : (
-            <>      
-              <button className='Login-button' onClick={handleLogin}>Zoho Login</button>
-            </>
-          )}
-          
-        </ul>
-      </nav>      
+            ) : (
+              <>
+                <button className='Login-button' onClick={handleLogin}>Zoho Login</button>
+              </>
+            )}
 
-      
-      <Routes>
-        <Route path="/accounts" element={<Accounts />} />
-        <Route path="/contacts" element={<Contacts />} />
-        <Route path="/receipts" element={<Receipts />} />
-      </Routes>
-      
-    </Router>
+          </ul>
+        </nav>
 
-      
+
+        <Routes>
+          <Route path="/accounts" element={<Accounts />} />
+          <Route path="/contacts" element={<Contacts />} />
+          <Route path="/receipts" element={<Receipts />} />
+        </Routes>
+
+      </Router>
+
+
     </div>
   );
 }
